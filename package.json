@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "App for manage tasks",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "test",
     "dev": "nodemon src/index.js"
   },
   "repository": {
@@ -30,7 +30,8 @@
     "mongoose": "^6.1.1",
     "morgan": "^1.10.0",
     "passport": "^0.5.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

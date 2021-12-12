@@ -7,24 +7,28 @@ import flash from 'connect-flash'
 import passport from 'passport'
 import MongoStore from 'connect-mongo'
 import morgan from 'morgan'
+import { fileURLToPath } from 'url'
 
 // Import the config
-import { createAdminUser } from './lib/createAdminUser'
-import config from './config/config'
-import './config/passport'
+import createUserAdmin from './lib/createUserAdmin.js'
+import config from './config/config.js'
 
 // Import the routes
-import indexRoute from './routes/indexRoute'
-import userRoute from './routes/userRoute'
-import notesRoute from './routes/noteRoute'
+import indexRoutes from './routes/indexRoute.js'
+import userRoutes from './routes/userRoute.js'
+import notesRoutes from './routes/notesRouter.js'
+import './config/passport.js'
 
 // Initialization
 const app = express()
-createAdminUser()
+createUserAdmin.createUserAdmin()
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename)
 
 // Settings
 app.set('port', config.PORT)
-app.set(path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, 'views'));
 app.engine(
     '.hbs',
     engine({
@@ -51,6 +55,7 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: config.MONGODB_URI })
 }))
 app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash())
 
 // Global variables
@@ -63,14 +68,14 @@ app.use((req, res, next) => {
 })
 
 // Routes
-app.use(indexRoute)
-app.use(userRoute)
-app.use(notesRoute)
+app.use(indexRoutes)
+app.use(userRoutes)
+app.use(notesRoutes)
 
 // Static Files
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.render('404')
 })
 

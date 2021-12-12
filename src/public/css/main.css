@@ -1,0 +1,13 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.title {
+    padding: 50px;
+    margin: 50px;
+}
+
+.logo {
+    width: 430px;
+}
